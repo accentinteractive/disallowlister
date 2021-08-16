@@ -18,24 +18,21 @@ class DisAllowListerTest extends TestCase
     /** @test */
     public function it_can_set_a_disallowlist()
     {
-        $disallowLister = new DisallowLister();
-        $disallowLister->setDisallowList(['bar']);
+        $disallowLister = (new DisallowLister())->setDisallowList(['bar']);
         $this->assertEquals(['bar'], $disallowLister->getDisallowList());
     }
 
     /** @test */
     public function it_can_add_to_the_disallowlist()
     {
-        $disallowLister = new DisallowLister(['bar']);
-        $disallowLister->addItem('foo');
+        $disallowLister = (new DisallowLister(['bar']))->addItem('foo');
         $this->assertEquals(['bar', 'foo'], $disallowLister->getDisallowList());
     }
 
     /** @test */
     public function it_can_remove_an_item_from_the_disallowlist()
     {
-        $disallowLister = new DisallowLister(['foo', 'bar']);
-        $disallowLister->removeItem('bar');
+        $disallowLister = (new DisallowLister(['foo', 'bar']))->removeItem('bar');
         $this->assertEquals(['foo'], $disallowLister->getDisallowList());
     }
 

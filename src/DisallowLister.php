@@ -47,11 +47,15 @@ class DisallowLister
     public function addItem(string $string): DisallowLister
     {
         $this->disallowList[] = $string;
+
+        return $this;
     }
 
-    public function removeItem(string $string): void
+    public function removeItem(string $string): DisallowLister
     {
         $this->disallowList = array_diff($this->disallowList, [$string]);
+
+        return $this;
     }
 
     /**
@@ -65,9 +69,11 @@ class DisallowLister
     /**
      * @param array $disallowList
      */
-    public function setDisallowList(array $disallowList): void
+    public function setDisallowList(array $disallowList): DisallowLister
     {
         $this->disallowList = $disallowList;
+
+        return $this;
     }
 
     protected function stringIsDisallowed(string $string): bool
