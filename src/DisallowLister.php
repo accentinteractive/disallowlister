@@ -8,7 +8,12 @@ class DisallowLister
     /**
      * @var array
      */
-    protected $disallowList;
+    protected $disallowList = [];
+
+    /**
+     * @var bool
+     */
+    protected $isCaseSensitive = false;
 
     public function __construct(array $disallowList = [])
     {
@@ -17,6 +22,10 @@ class DisallowLister
 
     public function isDisallowed(string $string): bool
     {
+        if ($this->isCaseSensitive == false) {
+            $string = strtolower($string);
+        }
+
         $string = explode(' ', $string);
 
         foreach ($string as $word) {
@@ -28,7 +37,14 @@ class DisallowLister
         return false;
     }
 
-    public function addItem(string $string): void
+    public function caseSensitive(bool $isCaseSensitive = false)
+    {
+        $this->isCaseSensitive = $isCaseSensitive;
+
+        return $this;
+    }
+
+    public function addItem(string $string): DisallowLister
     {
         $this->disallowList[] = $string;
     }
@@ -57,9 +73,11 @@ class DisallowLister
     protected function stringIsDisallowed(string $string): bool
     {
         foreach ($this->disallowList as $search) {
-            var_dump($search);
-            var_dump($string);
-            if (fnmatch($search, $string, FNM_CASEFOLD)) {
+            if ($this->isCaseSensitive == false) {
+                $string = strtolower($string);
+            }
+
+            if (fnmatch($search, $string)) {
                 return true;
             }
         }

@@ -96,4 +96,15 @@ class DisAllowListerTest extends TestCase
         $this->assertTrue($disallowLister->isDisallowed('mum'));
         $this->assertFalse($disallowLister->isDisallowed('mam'));
     }
+
+    /** @test */
+    public function it_can_be_case_sensitive ()
+    {
+        $disallowLister = (new DisallowLister(['mom']))->caseSensitive(true);
+        $this->assertFalse($disallowLister->isDisallowed('MOM'));
+
+        $disallowLister->caseSensitive(false);
+        $this->assertTrue($disallowLister->isDisallowed('MOM'));
+    }
+
 }
