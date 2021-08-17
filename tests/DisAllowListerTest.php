@@ -3,7 +3,9 @@
 namespace Tests;
 
 use Accentinteractive\DisallowLister;
+use Accentinteractive\DisallowListerException;
 use PHPUnit\Framework\TestCase;
+use StdClass;
 
 class DisAllowListerTest extends TestCase
 {
@@ -34,6 +36,15 @@ class DisAllowListerTest extends TestCase
     {
         $disallowLister = (new DisallowLister(['bar']))->add(['foo', 'bat']);
         $this->assertEquals(['bar', 'foo', 'bat'], $disallowLister->getDisallowList());
+    }
+
+    /** @test */
+    public function it_throws_an_exception_if_item_is_of_wrong_type()
+    {
+        $this->expectException(DisallowListerException::class);
+        (new DisallowLister())->add(new StdClass);
+
+        (new DisallowLister())->remove(new StdClass);
     }
 
     /** @test */

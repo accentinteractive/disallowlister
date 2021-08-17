@@ -46,6 +46,10 @@ class DisallowLister
 
     public function add($item): DisallowLister
     {
+        if ( ! is_string($item) && ! is_array($item)) {
+            throw new DisallowListerException('$item must be a string or an array');
+        }
+
         $item = (array) $item;
         $this->disallowList = array_merge($this->disallowList, $item);
 
