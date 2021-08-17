@@ -44,16 +44,18 @@ class DisallowLister
         return $this;
     }
 
-    public function addItem(string $string): DisallowLister
+    public function add($item): DisallowLister
     {
-        $this->disallowList[] = $string;
+        $item = (array) $item;
+        $this->disallowList = array_merge($this->disallowList, $item);
 
         return $this;
     }
 
-    public function removeItem(string $string): DisallowLister
+    public function remove($item): DisallowLister
     {
-        $this->disallowList = array_diff($this->disallowList, [$string]);
+        $item = (array) $item;
+        $this->disallowList = array_diff($this->disallowList, $item);
 
         return $this;
     }

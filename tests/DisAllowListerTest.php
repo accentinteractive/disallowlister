@@ -23,17 +23,31 @@ class DisAllowListerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_to_the_disallowlist()
+    public function it_can_add_a_string_to_the_disallowlist()
     {
-        $disallowLister = (new DisallowLister(['bar']))->addItem('foo');
+        $disallowLister = (new DisallowLister(['bar']))->add('foo');
         $this->assertEquals(['bar', 'foo'], $disallowLister->getDisallowList());
     }
 
     /** @test */
-    public function it_can_remove_an_item_from_the_disallowlist()
+    public function it_can_add_an_array_to_the_disallowlist()
     {
-        $disallowLister = (new DisallowLister(['foo', 'bar']))->removeItem('bar');
+        $disallowLister = (new DisallowLister(['bar']))->add(['foo', 'bat']);
+        $this->assertEquals(['bar', 'foo', 'bat'], $disallowLister->getDisallowList());
+    }
+
+    /** @test */
+    public function it_can_remove_a_string_from_the_disallowlist()
+    {
+        $disallowLister = (new DisallowLister(['foo', 'bar']))->remove('bar');
         $this->assertEquals(['foo'], $disallowLister->getDisallowList());
+    }
+
+    /** @test */
+    public function it_can_remove_an_array_from_the_disallowlist()
+    {
+        $disallowLister = (new DisallowLister(['foo', 'bar']))->remove(['foo', 'bar']);
+        $this->assertEquals([], $disallowLister->getDisallowList());
     }
 
     /** @test */
@@ -95,7 +109,7 @@ class DisAllowListerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_be_case_sensitive ()
+    public function it_can_be_case_sensitive()
     {
         $disallowLister = (new DisallowLister(['mom']))->caseSensitive(true);
         $this->assertFalse($disallowLister->isDisallowed('MOM'));
