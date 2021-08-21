@@ -1,6 +1,6 @@
 {
     "name": "accentinteractive/disallowlister",
-    "description": "Keep your laravel logs small and tidy.",
+    "description": "Test a string against a disallowlist. Useful for user forms and such.",
     "keywords": [
         "accentinteractive",
         "disallowlister"
@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^7.3|^8.0"
+        "php": "^7.3|^7.4|^8.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.4|^9.0",
