@@ -2,6 +2,9 @@
 
 All notable changes to `disallowlister` will be documented in this file
 
+## 0.3.1 - 2021-08-23
+- Added the Laravel implementation to README
+
 ## 0.3.0 - 2021-08-17
 ### Added
 - Method add() and remove() now take both a string and an array
