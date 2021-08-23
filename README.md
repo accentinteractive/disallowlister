@@ -7,6 +7,8 @@
 
 This little package tests a string against a disallowlist. 
 
+If you are looking for a Laravel-specific implementation, see https://github.com/accentinteractive/laravel-disallowlister 
+
 The `isDisallowed()` method can use wildcards, like *. 
 
 Under the hood, `accentinteractive/disallowtester` uses `fnmatch()`, so you can use the same wildcards as in that php function (the globbing wildcard patterns):
