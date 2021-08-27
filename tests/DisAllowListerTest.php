@@ -77,16 +77,19 @@ class DisAllowListerTest extends TestCase
         $this->assertSame(false, $disallowLister->isDisallowed('baz@bat.com'));
     }
 
-    public function it_matches_words()
+    /** @test */
+    public function it_matches_the_entire_string_by_default()
     {
-        $disallowLister = new DisallowLister(['sexuologist']);
-        $this->assertTrue($disallowLister->isDisallowed('John is bisexual'));
+        $disallowLister = new DisallowLister(['bisexual']);
+        $this->assertFalse($disallowLister->isDisallowed('John is bisexual'));
+        $this->assertTrue($disallowLister->isDisallowed('bisexual'));
     }
 
-    public function it_matches_only_whole_words()
+    /** @test */
+    public function it_can_match_word_for_word()
     {
-        $disallowLister = new DisallowLister(['sex']);
-        $this->assertFalse($disallowLister->isDisallowed('John is bisexual'));
+        $disallowLister = (new DisallowLister(['bisexual']))->setWordForWord(true);
+        $this->assertTrue($disallowLister->isDisallowed('John is bisexual'));
     }
 
     /** @test */
@@ -127,6 +130,14 @@ class DisAllowListerTest extends TestCase
 
         $disallowLister->caseSensitive(false);
         $this->assertTrue($disallowLister->isDisallowed('MOM'));
+    }
+
+    /** @test */
+    public function it_can_disallow_email_adresses()
+    {
+        $disallowLister = new DisallowLister(['*@*.ru']);
+        $this->assertTrue($disallowLister->isDisallowed('aug03@info89.ru'));
+        $this->assertFalse($disallowLister->isDisallowed('info89.ru'));
     }
 
 }

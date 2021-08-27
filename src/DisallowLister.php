@@ -15,6 +15,8 @@ class DisallowLister
      */
     protected $isCaseSensitive = false;
 
+    protected $wordForWord = false;
+
     public function __construct(array $disallowList = [])
     {
         $this->disallowList = $disallowList;
@@ -24,6 +26,10 @@ class DisallowLister
     {
         if ($this->isCaseSensitive == false) {
             $string = strtolower($string);
+        }
+
+        if ($this->wordForWord == false) {
+            return $this->stringIsDisallowed($string);
         }
 
         $string = explode(' ', $string);
@@ -81,6 +87,17 @@ class DisallowLister
 
         return $this;
     }
+
+    /**
+     * @param bool $wordForWord
+     */
+    public function setWordForWord(bool $wordForWord): DisallowLister
+    {
+        $this->wordForWord = (bool) $wordForWord;
+
+        return $this;
+    }
+
 
     protected function stringIsDisallowed(string $string): bool
     {

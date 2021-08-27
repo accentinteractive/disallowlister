@@ -2,6 +2,10 @@
 
 All notable changes to `disallowlister` will be documented in this file
 
+## 0.4.0 - 2021-08-27
+- Added whole word matching
+- Better README
+
 ## 0.3.1 - 2021-08-23
 - Added the Laravel implementation to README
 

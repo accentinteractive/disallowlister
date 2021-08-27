@@ -30,15 +30,63 @@ composer require accentinteractive/disallowlister
 ```
 
 ## Usage
-```php
-// Create a new Disallowlister and add items to the disallow list.
-$disallowLister = new DisallowLister(['foo', '*bar*']);
-$disallowLister->addItem('b?t');
 
-// Match a sting agains it.
-$disallowLister->isDisallowed('My favorite bars'); // Returns true
-$disallowLister->isDisallowed('My favorite bit'); // Returns true
-$disallowLister->isDisallowed('My favorite footer'); // Returns false
+### Setting the disallowlist
+You can pass the disallowlist in the constructor or via other methods.
+```php
+// Pass the disallowlist in the constructor 
+$disallowLister = new DisallowLister(['foo']); // ['foo']
+
+// Set the disallowlist in the setter method
+$disallowLister->setDisallowList(['bar']); // ['bar']
+
+// Add an item to the disallowlist
+$disallowLister->add('baz'); // ['bar', 'baz']
+
+// Add multiple items to the disallowlist
+$disallowLister->add(['bat', 'fiz']); // ['bar', 'baz', 'bat', 'fiz']
+
+// Remove an item from the disallowlist
+$disallowLister->remove('fiz'); // ['bar', 'baz', 'bat']
+
+// Remove multiple items from the disallowlist
+$disallowLister->remove(['baz', 'bat']); // ['bar']
+```
+
+### Checking data against the disallowlist
+```php
+## Literal string
+$disallowLister = new DisallowLister(['bar', 'foo']);
+
+$disallowLister->isDisallowed('bar'); // Returns true
+$disallowLister->isDisallowed('bars'); // Returns false
+
+## Wildcards
+// Under the hood, `accentinteractive/disallowtester` 
+// uses `fnmatch()`, so you can use the same 
+// wildcards as in that php function (the 
+// globbing wildcard patterns):
+(new DisallowLister(['b?r']))->isDisallowed('bar'); // Returns true
+(new DisallowLister(['m[o,u]m']))->isDisallowed('mom'); // Returns true
+(new DisallowLister(['*bar*']))->isDisallowed('I like crowbars'); // Returns true
+```
+
+### Case sensitivity
+```php
+// By default, matching is not case sensitive
+(new DisallowLister(['bar']))->isDisallowed('BAR'); // Returns true
+
+// To set case sensitive matching
+(new DisallowLister(['bar']))->caseSensitive(true)->isDisallowed('BAR'); // Returns false
+```
+
+### Whole word checking
+```php
+// By default the entire string is checked. 
+(new DisallowLister())->setDisallowList(['bar'])->isDisallowed('My favorite bar'); // Returns false
+
+// Check word for word.
+(new DisallowLister())->setDisallowList(['bar'])->setWordForWord(true)->isDisallowed('My favorite bar'); // Returns true
 ```
 
 ### Testing
